@@ -1,0 +1,36 @@
+{
+  "name": "apollo-nexus-server",
+  "version": "1.0.0",
+  "description": "Code-first schema via Nexus using an Apollo GraphQL server",
+  "author": "Anthony Hastings <ar.hastings@gmail.com> (https://antwan1986.github.io/)",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "index.mts",
+  "scripts": {
+    "artifacts:generate": "ts-node --transpile-only --esm schema.mts",
+    "prebuild": "npm run artifacts:generate",
+    "build": "tsc --project ./tsconfig.json",
+    "predev": "npm run artifacts:generate",
+    "dev": "nodemon --exec ts-node --esm index.mts",
+    "start": "NODE_ENV=production node dist/index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretypes:check": "npm run artifacts:generate",
+    "types:check": "npm run build -- --noEmit"
+  },
+  "dependencies": {
+    "apollo-datasource": "3.3.2",
+    "apollo-server": "3.9.0",
+    "graphql": "16.5.0",
+    "luxon": "2.4.0",
+    "nexus": "1.3.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "2.3.2",
+    "@types/node": "16.11.43",
+    "nodemon": "2.0.16",
+    "prettier": "2.7.1",
+    "ts-node": "10.8.1",
+    "typescript": "4.7.4"
+  }
+}
