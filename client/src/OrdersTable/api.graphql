@@ -1,0 +1,23 @@
+query GetOrders {
+  getOrders {
+    id
+    buyerId
+    buyer {
+      id
+      firstName
+      lastName
+      shippingAddress
+    }
+    price
+    sellerId
+    seller {
+      id
+      firstName
+      lastName
+      acceptedPaymentMethods
+      isAcceptingOrders
+      shippingNotice
+    }
+    shippedAt
+  }
+}
