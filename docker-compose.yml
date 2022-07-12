@@ -1,0 +1,54 @@
+version: '3.8'
+x-apollo-client-app-defaults: &apollo-client-app-defaults
+  build:
+    context: ./client/
+  depends_on:
+    - apollo-server-dev
+x-apollo-server-app-defaults: &apollo-server-app-defaults
+  build: &apollo-server-app-defaults-build
+    context: ./server/
+  environment:
+    - APOLLO_PORT
+  ports:
+    - target: ${APOLLO_PORT}
+      published: ${APOLLO_PORT}
+    - target: 9228
+      published: 9228
+services:
+  apollo-client-dev:
+    <<: *apollo-client-app-defaults
+    command: sh -c "dockerize -wait tcp://apollo-server-dev:4040 -timeout 20s npm start"
+    environment:
+      - GRAPHQL_CODEGEN_SCHEMA_URL
+      - REACT_APP_APOLLO_SERVER_URL
+    ports:
+      - target: 3000
+        published: 3000
+    volumes:
+      - type: bind
+        source: ./client/src
+        target: /home/node/apollo-client/src
+  apollo-client-builder:
+    <<: *apollo-client-app-defaults
+    command: sh -c "dockerize -wait tcp://apollo-server-dev:4040 -timeout 20s npm run build"
+    environment:
+      - GRAPHQL_CODEGEN_SCHEMA_URL
+    volumes:
+      - type: bind
+        source: ./client/src
+        target: /home/node/apollo-client/src
+      - type: bind
+        source: ./client/build
+        target: /home/node/apollo-client/build
+  apollo-server-prod:
+    <<: *apollo-server-app-defaults
+  apollo-server-dev:
+    <<: *apollo-server-app-defaults
+    build:
+      <<: *apollo-server-app-defaults-build
+      target: base
+    command: sh -c "npm run dev"
+    volumes:
+      - type: bind
+        source: ./server/src
+        target: /home/node/apollo-server/src

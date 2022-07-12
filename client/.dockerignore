@@ -1,0 +1,9 @@
+*
+!public/
+!src/
+!.nvmrc
+!.prettierrc.json
+!graphql-codegen.yml
+!package.json
+!package-lock.json
+!tsconfig.json

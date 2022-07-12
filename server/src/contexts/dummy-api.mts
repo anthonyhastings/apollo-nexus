@@ -1,5 +1,5 @@
 import { DataSource } from 'apollo-datasource';
-import type { NexusGenRootTypes } from '../artifacts/nexus-typegen.mjs';
+import type { NexusGenRootTypes } from '../../artifacts/nexus-typegen.mjs';
 
 type UpdateBuyerAttributes = Partial<Omit<NexusGenRootTypes['Buyer'], 'id'>>;
 

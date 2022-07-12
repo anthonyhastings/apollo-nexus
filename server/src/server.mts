@@ -12,7 +12,7 @@ const startServer = async () => {
     schema,
   });
 
-  const { url } = await server.listen();
+  const { url } = await server.listen({ port: process.env.APOLLO_PORT });
 
   return { server, url };
 };

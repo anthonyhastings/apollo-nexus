@@ -6,21 +6,21 @@
   "license": "MIT",
   "private": true,
   "type": "module",
-  "main": "index.mts",
+  "main": "src/index.mts",
   "scripts": {
-    "artifacts:generate": "ts-node --transpile-only --esm schema.mts",
+    "artifacts:generate": "ts-node --transpile-only --esm src/schema.mts",
     "prebuild": "npm run artifacts:generate",
     "build": "tsc --project ./tsconfig.json",
     "predev": "npm run artifacts:generate",
-    "dev": "nodemon --exec ts-node --esm index.mts",
-    "start": "NODE_ENV=production node dist/index.mjs",
+    "dev": "nodemon --verbose --watch src/ --ext mts --exec \"node --loader ts-node/esm --inspect=0.0.0.0:9228 src/index.mts\"",
+    "start": "NODE_ENV=production node dist/src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretypes:check": "npm run artifacts:generate",
     "types:check": "npm run build -- --noEmit"
   },
   "dependencies": {
     "apollo-datasource": "3.3.2",
     "apollo-server": "3.9.0",
+    "dotenv": "16.0.1",
     "graphql": "16.5.0",
     "luxon": "2.4.0",
     "nexus": "1.3.0"

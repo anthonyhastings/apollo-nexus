@@ -4,7 +4,7 @@ import { makeSchema } from 'nexus';
 import * as types from './schemas/index.mjs';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const artifactsFolder = path.join(__dirname, './artifacts');
+const artifactsFolder = path.join(__dirname, '../artifacts');
 const contextsFolder = path.join(__dirname, './contexts');
 
 const schema = makeSchema({

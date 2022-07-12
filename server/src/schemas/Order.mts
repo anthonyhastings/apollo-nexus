@@ -1,5 +1,5 @@
 import { extendType, nonNull, objectType } from 'nexus';
-import type { NexusGenRootTypes } from '../artifacts/nexus-typegen.mjs';
+import type { NexusGenRootTypes } from '../../artifacts/nexus-typegen.mjs';
 import { Buyer } from './Buyer.mjs';
 import { ISODateString } from './ISODateString.mjs';
 import { OrderStatus } from './OrderStatus.mjs';

@@ -24,7 +24,8 @@
   },
   "scripts": {
     "graphql-codegen:clean": "rimraf ./src/generated/ ./src/**/*.generated.tsx",
-    "graphql-codegen:create": "graphql-codegen --config graphql-codegen.yml",
+    "pregraphql-codegen:create": "npm run graphql-codegen:clean",
+    "graphql-codegen:create": "graphql-codegen --require dotenv/config --config graphql-codegen.yml",
     "prestart": "npm run graphql-codegen:create",
     "start": "react-scripts start",
     "prebuild": "npm run graphql-codegen:create",
