@@ -1,0 +1,30 @@
+query GetBuyers {
+  getBuyers {
+    id
+    firstName
+    lastName
+    shippingAddress
+  }
+}
+
+mutation UpdateBuyer($updateBuyerInput: UpdateBuyerInput!) {
+  updateBuyer(input: $updateBuyerInput) {
+    success
+    buyer {
+      id
+      firstName
+      lastName
+      shippingAddress
+    }
+    userErrors {
+      __typename
+      ... on UserError {
+        message
+        path
+      }
+      ... on FrozenRecordError {
+        frozenFrom
+      }
+    }
+  }
+}
