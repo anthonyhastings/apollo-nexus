@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 
 help:
 	@echo "start-apollo-client-dev - Starts single-page application and Apollo Server."
-	@echo "start-apollo-client-build - Builds the dist files onto host machine."
+	@echo "start-apollo-client-build - Builds single-page application onto host machine."
 	@echo "start-apollo-server-prod - Starts Apollo Server for production use."
 	@echo "start-apollo-server-dev - Starts Apollo Server for local development."
 	@echo "start-apollo-server-types-check - Type check the source files for the server application."
