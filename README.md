@@ -4,7 +4,7 @@
 
 ![Demonstration](https://raw.githubusercontent.com/anthonyhastings/apollo-nexus/master/images/apollo-nexus-example.gif)
 
-This repository showcases a code-first approach to constructing a GraphQL schema, served via Apollo Server and queried / mutated via Apollo Client.
+This repository showcases a code-first approach to constructing a GraphQL schema, served via Apollo Server and queried / mutated via generated Apollo Client hooks.
 
 The graph has been made using scalar types, enumerables, lists, interfaces and custom scalars. The client utilises code generation to take source GraphQL files and output type safe Apollo Client hooks ready for use within react components.
 
