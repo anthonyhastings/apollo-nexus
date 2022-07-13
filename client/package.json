@@ -1,6 +1,9 @@
 {
-  "name": "client",
-  "version": "0.1.0",
+  "name": "apollo-nexus-client",
+  "version": "1.0.0",
+  "description": "Apollo Client utilising generated hooks",
+  "author": "Anthony Hastings <ar.hastings@gmail.com> (https://antwan1986.github.io/)",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@apollo/client": "3.6.9",
