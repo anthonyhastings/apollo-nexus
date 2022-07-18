@@ -12,7 +12,7 @@ The graph has been made using scalar types, enumerables, lists, interfaces and c
 
 These instructions assume you already have `docker` and `docker-compose` installed. Common actions are as follows:
 
-To start the Apollo server and example client in development mode, run the following:
+In order to correctly run the client container, we need to start the server container. This is because when the client starts itself, it will generate types and hooks for use within the application. There is a single command that will build the dev versions of both the client and server images (if necessary), start the server container, wait for the server to be responsive, then start the client container:
 
 ```shell
     make start-apollo-client-dev

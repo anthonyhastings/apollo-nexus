@@ -7,8 +7,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
   && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-USER node
-
 WORKDIR /home/node/apollo-server
 
 COPY --chown=node package.json package-lock.json ./
@@ -19,9 +17,9 @@ COPY --chown=node . ./
 
 RUN npm run build
 
-FROM node:16.15.1-alpine AS server
-
 USER node
+
+FROM node:16.15.1-alpine AS server
 
 WORKDIR /home/node/apollo-server
 
@@ -30,5 +28,7 @@ COPY --from=base --chown=node /home/node/apollo-server/package.json /home/node/a
 RUN npm ci
 
 COPY --from=base --chown=node /home/node/apollo-server/dist ./dist
+
+USER node
 
 CMD npm start
