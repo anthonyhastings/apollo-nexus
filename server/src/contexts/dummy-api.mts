@@ -1,5 +1,8 @@
 import { DataSource } from 'apollo-datasource';
-import type { NexusGenRootTypes } from '../../artifacts/nexus-typegen.mjs';
+import type {
+  NexusGenEnums,
+  NexusGenRootTypes,
+} from '../../artifacts/nexus-typegen.mjs';
 
 type UpdateBuyerAttributes = Partial<Omit<NexusGenRootTypes['Buyer'], 'id'>>;
 
@@ -85,8 +88,25 @@ class DummyAPI extends DataSource {
     return orders;
   }
 
-  async getBuyers() {
-    console.log('DummyAPI::getBuyers');
+  async getBuyers({
+    sortField,
+    sortDirection,
+  }: {
+    sortField?: NexusGenEnums['BuyerSortableColumns'];
+    sortDirection?: NexusGenEnums['SortDirection'];
+  }) {
+    console.log('DummyAPI::getBuyers', sortField, sortDirection);
+
+    if (sortField && sortDirection) {
+      const sortedResults = [...buyers].sort((elementOne, elementTwo) => {
+        return elementOne[sortField]
+          .toLowerCase()
+          .localeCompare(elementTwo[sortField].toLowerCase());
+      });
+
+      return sortDirection === 'DESC' ? sortedResults.reverse() : sortedResults;
+    }
+
     return buyers;
   }
 
