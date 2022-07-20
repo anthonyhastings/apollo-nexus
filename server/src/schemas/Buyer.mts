@@ -1,4 +1,6 @@
 import {
+  arg,
+  enumType,
   extendType,
   inputObjectType,
   nonNull,
@@ -9,6 +11,7 @@ import {
   ForbiddenNameError,
   FrozenRecordError,
 } from '../contexts/dummy-api.mjs';
+import { SortDirection } from './Common.mjs';
 import { ISODateString } from './ISODateString.mjs';
 import { Person } from './Person.mjs';
 import { UserError } from './UserError.mjs';
@@ -85,14 +88,49 @@ export const UpdateBuyerPayload = objectType({
   },
 });
 
+export const BuyerSortableColumns = enumType({
+  name: 'BuyerSortableColumns',
+  description: 'Columns that can be chosen to sort by.',
+  members: ['id', 'lastName'],
+});
+
+export const BuyerSortInput = inputObjectType({
+  name: 'BuyerSortInput',
+  description: 'Sort definition when searching for buyers.',
+  definition(t) {
+    t.nonNull.field('columnName', {
+      type: BuyerSortableColumns,
+      description: 'Column to sort returned data by.',
+    });
+    t.nonNull.field('direction', {
+      type: SortDirection,
+      description: 'How to order the chosen sorting column.',
+    });
+  },
+});
+
 export const BuyerQueries = extendType({
   type: 'Query',
   definition(t) {
     t.nonNull.list.field('getBuyers', {
       description: 'Retrieves all buyers.',
+      args: {
+        sortBy: arg({
+          type: BuyerSortInput,
+          default: {
+            columnName: 'id',
+            direction: 'ASC',
+          },
+        }),
+      },
       type: nonNull(Buyer),
-      resolve: async (_, __, { dataSources }) => {
-        return await dataSources.dummyAPI.getBuyers();
+      resolve: async (_, { sortBy }, { dataSources }) => {
+        return await dataSources.dummyAPI.getBuyers({
+          ...(sortBy && {
+            sortField: sortBy?.columnName,
+            sortDirection: sortBy?.direction,
+          }),
+        });
       },
     });
   },
