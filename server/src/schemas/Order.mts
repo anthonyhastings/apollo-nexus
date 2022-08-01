@@ -4,6 +4,7 @@ import { Buyer } from './Buyer.mjs';
 import { ISODateString } from './ISODateString.mjs';
 import { OrderStatus } from './OrderStatus.mjs';
 import { Seller } from './Seller.mjs';
+import { Warehouse } from './Warehouse.mjs';
 
 export const Order = objectType({
   name: 'Order',
@@ -38,6 +39,18 @@ export const Order = objectType({
     t.nonNull.field('status', {
       type: nonNull(OrderStatus),
       description: 'Status of an order.',
+    });
+    t.nonNull.id('warehouseId', {
+      description: 'Identifier of the warehouse storing the order.',
+    });
+    t.nonNull.field('warehouse', {
+      type: Warehouse,
+      description: 'Warehouse storing this order.',
+      resolve: async ({ warehouseId }, _, { dataSources }) => {
+        return (await dataSources.dummyAPI.getWarehouse(
+          warehouseId
+        )) as NonNullable<NexusGenRootTypes['Warehouse']>;
+      },
     });
     t.field('shippedAt', {
       type: ISODateString,

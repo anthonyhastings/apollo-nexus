@@ -7,3 +7,4 @@ export * from './PaymentMethod.mjs';
 export * from './Person.mjs';
 export * from './Seller.mjs';
 export * from './UserError.mjs';
+export * from './Warehouse.mjs';

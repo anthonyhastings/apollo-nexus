@@ -1,4 +1,5 @@
 import { DataSource } from 'apollo-datasource';
+import DataLoader from 'dataloader';
 import type {
   NexusGenEnums,
   NexusGenRootTypes,
@@ -32,6 +33,7 @@ let orders: Array<NexusGenRootTypes['Order']> = [
     sellerId: 'fake-seller-01',
     shippedAt: '2022-06-19T15:00:00+01:00',
     status: 'PAID',
+    warehouseId: 'fake-warehouse-01',
   },
   {
     id: 'fake-order-02',
@@ -40,6 +42,16 @@ let orders: Array<NexusGenRootTypes['Order']> = [
     sellerId: 'fake-seller-02',
     shippedAt: null,
     status: 'PENDING',
+    warehouseId: 'fake-warehouse-01',
+  },
+  {
+    id: 'fake-order-03',
+    buyerId: 'fake-buyer-02',
+    price: 123,
+    sellerId: 'fake-seller-01',
+    shippedAt: null,
+    status: 'PENDING',
+    warehouseId: 'fake-warehouse-02',
   },
 ];
 
@@ -77,7 +89,24 @@ let sellers: Array<NexusGenRootTypes['Seller']> = [
   },
 ];
 
+let warehouses: Array<NexusGenRootTypes['Warehouse']> = [
+  {
+    id: 'fake-warehouse-01',
+    name: 'The Box Factory',
+    address: 'Wayne Manor, Gotham',
+  },
+  {
+    id: 'fake-warehouse-02',
+    name: 'Box Emporium',
+    address: '21 Gresham Lane, Madeupville',
+  },
+];
+
 class DummyAPI extends DataSource {
+  private warehouseLoader = new DataLoader((ids: readonly string[]) => {
+    return this.getWarehousesById(ids);
+  });
+
   constructor() {
     console.log('DummyAPI::constructor');
     super();
@@ -118,6 +147,17 @@ class DummyAPI extends DataSource {
   async getSeller(id: string) {
     console.log('DummyAPI::getSeller', id);
     return sellers.find((seller) => seller.id === id);
+  }
+
+  async getWarehouse(id: string) {
+    console.log('DummyAPI::getWarehouse (passthrough to dataloader)', id);
+    const warehouse = await this.warehouseLoader.load(id);
+    return warehouse;
+  }
+
+  async getWarehousesById(ids: readonly string[]) {
+    console.log('DummyAPI::getWarehousesById', ids);
+    return ids.map((id) => warehouses.find((warehouse) => warehouse.id === id));
   }
 
   async updateBuyer(
