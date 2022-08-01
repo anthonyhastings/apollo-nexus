@@ -2,6 +2,9 @@
 !src/
 !.nvmrc
 !.prettierrc.json
+!jest-mjs-resolver.ts
+!jest.config.ts
 !package.json
 !package-lock.json
 !tsconfig.json
+!tsconfig.build.json
