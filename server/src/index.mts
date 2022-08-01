@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import startServer from './server.mjs';
+import { startServer } from './server.mjs';
 
-const { url } = await startServer();
+const url = await startServer();
 
 console.log(`
   🚀  Server is running!
