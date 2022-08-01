@@ -1,4 +1,5 @@
 import { DataSource } from 'apollo-datasource';
+import DataLoader from 'dataloader';
 import type {
   NexusGenEnums,
   NexusGenRootTypes,
@@ -102,6 +103,10 @@ let warehouses: Array<NexusGenRootTypes['Warehouse']> = [
 ];
 
 class DummyAPI extends DataSource {
+  private warehouseLoader = new DataLoader((ids: readonly string[]) => {
+    return this.getWarehousesById(ids);
+  });
+
   constructor() {
     console.log('DummyAPI::constructor');
     super();
@@ -145,8 +150,14 @@ class DummyAPI extends DataSource {
   }
 
   async getWarehouse(id: string) {
-    console.log('DummyAPI::getWarehouse', id);
-    return warehouses.find((warehouse) => warehouse.id === id);
+    console.log('DummyAPI::getWarehouse (passthrough to dataloader)', id);
+    const warehouse = await this.warehouseLoader.load(id);
+    return warehouse;
+  }
+
+  async getWarehousesById(ids: readonly string[]) {
+    console.log('DummyAPI::getWarehousesById', ids);
+    return ids.map((id) => warehouses.find((warehouse) => warehouse.id === id));
   }
 
   async updateBuyer(
