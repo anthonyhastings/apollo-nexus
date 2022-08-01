@@ -32,6 +32,7 @@ let orders: Array<NexusGenRootTypes['Order']> = [
     sellerId: 'fake-seller-01',
     shippedAt: '2022-06-19T15:00:00+01:00',
     status: 'PAID',
+    warehouseId: 'fake-warehouse-01',
   },
   {
     id: 'fake-order-02',
@@ -40,6 +41,16 @@ let orders: Array<NexusGenRootTypes['Order']> = [
     sellerId: 'fake-seller-02',
     shippedAt: null,
     status: 'PENDING',
+    warehouseId: 'fake-warehouse-01',
+  },
+  {
+    id: 'fake-order-03',
+    buyerId: 'fake-buyer-02',
+    price: 123,
+    sellerId: 'fake-seller-01',
+    shippedAt: null,
+    status: 'PENDING',
+    warehouseId: 'fake-warehouse-02',
   },
 ];
 
@@ -74,6 +85,19 @@ let sellers: Array<NexusGenRootTypes['Seller']> = [
     acceptedPaymentMethods: ['CASH'],
     isAcceptingOrders: false,
     shippingNotice: 'Currently between realms. Will re-open shop on my return.',
+  },
+];
+
+let warehouses: Array<NexusGenRootTypes['Warehouse']> = [
+  {
+    id: 'fake-warehouse-01',
+    name: 'The Box Factory',
+    address: 'Wayne Manor, Gotham',
+  },
+  {
+    id: 'fake-warehouse-02',
+    name: 'Box Emporium',
+    address: '21 Gresham Lane, Madeupville',
   },
 ];
 
@@ -118,6 +142,11 @@ class DummyAPI extends DataSource {
   async getSeller(id: string) {
     console.log('DummyAPI::getSeller', id);
     return sellers.find((seller) => seller.id === id);
+  }
+
+  async getWarehouse(id: string) {
+    console.log('DummyAPI::getWarehouse', id);
+    return warehouses.find((warehouse) => warehouse.id === id);
   }
 
   async updateBuyer(
