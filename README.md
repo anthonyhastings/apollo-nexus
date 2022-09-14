@@ -24,6 +24,8 @@ There are a number of other commands available such as starting the server in is
     make
 ```
 
+Almost all of the scripts that interact with Apollo Server (including type-checking) need the generated schema and generated types files. That is why almost all of the scripts will have a pre-script that generates these artifacts.
+
 ## Further Information
   - [GraphQL Nexus](https://nexusjs.org/)
   - [GraphQL Nexus - makeSchema](https://nexusjs.org/docs/api/make-schema)
