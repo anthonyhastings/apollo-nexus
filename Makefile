@@ -21,3 +21,6 @@ start-apollo-server-dev:
 
 start-apollo-server-types-check:
 	docker-compose run --rm --service-ports apollo-server-dev npm run types:check
+
+start-apollo-server-test:
+	docker-compose run --rm --service-ports apollo-server-dev npm run test

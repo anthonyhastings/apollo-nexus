@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["**/*.spec.mts", "jest-mjs-resolver.ts", "jest.config.ts"]
+}
